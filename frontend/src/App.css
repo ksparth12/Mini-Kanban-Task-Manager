@@ -1,0 +1,102 @@
+#root {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.app {
+  padding: 24px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header h1 {
+  margin: 0;
+}
+
+.add-task {
+  margin: 16px 0 24px;
+  display: flex;
+  gap: 12px;
+}
+
+.add-task input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #bfc7d1;
+  border-radius: 8px;
+}
+
+.add-task button,
+.actions button {
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #2f6fed;
+  color: white;
+  cursor: pointer;
+}
+
+.actions button {
+  margin-left: 8px;
+}
+
+.actions button.danger {
+  background: #e24c4c;
+}
+
+.status {
+  margin: 10px 0;
+  color: #444;
+}
+
+.status.error {
+  color: #b40000;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.column {
+  border: 1px solid #dce0e6;
+  border-radius: 12px;
+  padding: 12px;
+  background: #f9fafb;
+}
+
+.task-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.task-card {
+  border: 1px solid #d0d7e2;
+  border-radius: 10px;
+  background: white;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.task-title {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.actions {
+  display: flex;
+}
+
+.empty {
+  padding: 20px 4px;
+  color: #6f6f6f;
+  text-align: center;
+}
+
+@media (max-width: 800px) {
+  .board {
+    grid-template-columns: 1fr;
+  }
+}

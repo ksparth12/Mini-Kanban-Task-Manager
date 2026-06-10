@@ -5,7 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-const API_URL = 'http://localhost:4000/tasks';
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.PROD ? '/_/backend' : 'http://localhost:4000');
+const API_URL = `${API_BASE_URL}/tasks`;
 
 function App() {
   const [tasks, setTasks] = useState([]);

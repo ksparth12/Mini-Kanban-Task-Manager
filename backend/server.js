@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(express.json());
+const tasksRouter = express.Router();
 
 let tasks = [];
 let nextId = 1;
@@ -17,11 +18,11 @@ const resetTasks = () => {
 
 const isValidStatus = (status) => status === 'todo' || status === 'done';
 
-app.get('/tasks', (_, res) => {
+tasksRouter.get('/tasks', (_, res) => {
   res.status(200).json(tasks);
 });
 
-app.post('/tasks', (req, res) => {
+tasksRouter.post('/tasks', (req, res) => {
   const { title } = req.body || {};
   if (typeof title !== 'string' || title.trim() === '') {
     return res.status(400).json({
@@ -34,7 +35,7 @@ app.post('/tasks', (req, res) => {
   return res.status(201).json(task);
 });
 
-app.put('/tasks/:id', (req, res) => {
+tasksRouter.put('/tasks/:id', (req, res) => {
   const id = Number.parseInt(req.params.id, 10);
   if (Number.isNaN(id)) {
     return res.status(400).json({ error: 'Task id must be a number.' });
@@ -56,7 +57,7 @@ app.put('/tasks/:id', (req, res) => {
   return res.status(200).json(task);
 });
 
-app.delete('/tasks/:id', (req, res) => {
+tasksRouter.delete('/tasks/:id', (req, res) => {
   const id = Number.parseInt(req.params.id, 10);
   if (Number.isNaN(id)) {
     return res.status(400).json({ error: 'Task id must be a number.' });
@@ -71,13 +72,19 @@ app.delete('/tasks/:id', (req, res) => {
   return res.status(204).send();
 });
 
+const serviceRoutePrefix = process.env.VERCEL_SERVICE_ROUTE_PREFIX || '';
+app.use(serviceRoutePrefix, tasksRouter);
+app.use(tasksRouter);
+
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Backend running on http://localhost:${PORT}`);
   });
 }
 
-module.exports = {
-  app,
-  resetTasks,
-};
+const handler = (req, res) => app(req, res);
+
+handler.app = app;
+handler.resetTasks = resetTasks;
+
+module.exports = handler;
